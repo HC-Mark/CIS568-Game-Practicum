@@ -16,12 +16,11 @@ public class PlayerControl : MonoBehaviour
     public float revive_time = 3.0f;
     public Boundary boundary;
     public float tilt;
+    public bool is_shot = false; //determine whether the player's ship has shot, if so, can't shoot until the bullet destroyed
 
     //related gameobject -- need to be initialized in editor
-    public GameObject laser;
-
-    //private variables
-    bool isShot = false; //determine whether the player's ship has shot, if so, can't shoot until the bullet destroyed
+    public GameObject player_laser;
+    public Transform player_laser_spawn;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,6 +58,13 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //shoot the laser if we press space
+        if (Input.GetButton("Fire1") && !is_shot)
+        {
+            Debug.Log("fire");
+            Instantiate(player_laser, player_laser_spawn.position, player_laser.transform.rotation);
+            is_shot = true;
+        }
         
     }
 }
