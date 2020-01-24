@@ -20,7 +20,10 @@ public class PlayerLaser : MonoBehaviour
         //gameObject.transform.Translate(0.0f, 0.0f, speed);
         rd.velocity = transform.forward * speed;
 
-        player_ship = GameObject.Find("Player");
+        //doesn't work if I directly assign the prefab to the laser object, why?
+        player_ship = GameObject.Find("Player Variant(Clone)");
+        //we play the audio when the laser created
+        gameObject.GetComponent<AudioSource>().Play();
     }
     // Update is called once per frame
     void Update()

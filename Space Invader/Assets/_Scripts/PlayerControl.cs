@@ -20,11 +20,17 @@ public class PlayerControl : MonoBehaviour
 
     //related gameobject -- need to be initialized in editor
     public GameObject player_laser;
+    public GameObject player_explosion;
     public Transform player_laser_spawn;
+
+
+    //private
+    GameObject game_manager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        //initialize game_manager
+        game_manager = GameObject.Find("GameManager");
     }
 
     //fixed update to update the movement of ship
@@ -64,7 +70,31 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("fire");
             Instantiate(player_laser, player_laser_spawn.position, player_laser.transform.rotation);
             is_shot = true;
+            game_manager.GetComponent<GameManager>().AddScore("test");
+        }
+        if (game_manager.GetComponent<GameManager>().die)
+        {
+            game_manager.GetComponent<GameManager>().die = false;
+            PlayerDie();
+            
         }
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "EnemyLaser" || other.tag == "Enemy")
+        {
+            PlayerDie();
+        }
+    }
+
+    private void PlayerDie()
+    {
+        Instantiate(player_explosion, transform.position, transform.rotation);
+        //update the life information in game manger
+        game_manager.GetComponent<GameManager>().LoseLife();
+        game_manager.GetComponent<GameManager>().player_on_scene = false;
+        Destroy(gameObject);
     }
 }
