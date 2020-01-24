@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject asteroid;
     public GameObject enemy;
+    public Transform camera_transform;
 
     public Text life_text;
     public Text score_text;
@@ -37,11 +38,11 @@ public class GameManager : MonoBehaviour
 
     //corountine setup
     public AsteroidSpawn asteroid_spawn;
-    public float player_spawn;
+    public float player_spawn; //or we use it as the shake duration when player die
     //test
     public bool die;
 
-    //private variables
+    //private variables -- GUI
     private int score;
     private int life_remain;
     private EnemyScore es;
@@ -49,9 +50,20 @@ public class GameManager : MonoBehaviour
     private int max_asteroid_score;
     private bool game_over;
     private bool restart;
+    //for shake effect
+    private float shake_amount = 0.7f;
+    private Vector3 original_position;
+    private bool shake_effect_on;
+    private float shake_duration;
     // Start is called before the first frame update
     void Start()
     {
+        if (camera_transform == null)
+        {
+            //find it
+            camera_transform = GameObject.Find("Main Camera").transform;
+        }
+        shake_effect_on = false;
         //we need to set up coroutine to spawn it infintely
         player_on_scene = true;
 
@@ -96,6 +108,11 @@ public class GameManager : MonoBehaviour
             {
                 StartCoroutine(SpawnPlayer(player_spawn));
             }
+        }
+
+        if (shake_effect_on)
+        {
+            ShakeEffect();
         }
     }
 
@@ -181,5 +198,28 @@ public class GameManager : MonoBehaviour
     {
         life_remain--;
         UpdateLife();
+        InitShakeEffect();
+        Debug.Log("lose life");
     }
+
+    //camera shake -- get inspiration from https://gist.github.com/ftvs/5822103
+    void InitShakeEffect()
+    {
+        original_position = camera_transform.localPosition;
+        shake_effect_on = true;
+        shake_duration = player_spawn;
+    }
+
+    void ShakeEffect()
+    {
+        camera_transform.localPosition = original_position + Random.insideUnitSphere * shake_amount;
+        shake_duration -= Time.deltaTime;
+        if(shake_duration < 0)
+        {
+            shake_effect_on = false;
+            //reset the position of the camera
+            camera_transform.localPosition = original_position;
+        }
+    }
+
 }

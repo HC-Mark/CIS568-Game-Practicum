@@ -72,6 +72,10 @@ public class PlayerControl : MonoBehaviour
             is_shot = true;
             game_manager.GetComponent<GameManager>().AddScore("test");
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("switch camera");
+        }
         if (game_manager.GetComponent<GameManager>().die)
         {
             game_manager.GetComponent<GameManager>().die = false;

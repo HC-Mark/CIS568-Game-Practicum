@@ -507,6 +507,7 @@ MonoBehaviour:
   asteroid: {fileID: 8336873437948347153, guid: e4fff1973433f4748ab5b90b49e2da4b,
     type: 3}
   enemy: {fileID: 0}
+  camera_transform: {fileID: 0}
   life_text: {fileID: 1870052804}
   score_text: {fileID: 889507506}
   gameover_text: {fileID: 844439284}
@@ -516,7 +517,6 @@ MonoBehaviour:
   asteroid_on_scene: 0
   player_on_scene: 0
   enemy_num: 0
-  life_remain: 3
   asteroid_spawn:
     asteroid_wait_min: 5
     asteroid_wait_max: 30
