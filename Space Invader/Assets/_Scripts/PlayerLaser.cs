@@ -44,10 +44,23 @@ public class PlayerLaser : MonoBehaviour
         if (other.tag == "Asteroid")
         {
             //update score here to game manager
+            game_manager.GetComponent<GameManager>().AddScore(other.tag);
+            //destroy correspond object
             other.GetComponent<Asteroid>().AsteroidDie();
             //need to clean up the left effect object ?
             //create explosion effect
             Instantiate(asteroid_explosion, transform.position, transform.rotation);
+            LaserDie();
+        }
+        if (other.tag == "LargeEnemy" || other.tag == "SmallEnemy" || other.tag == "MediumEnemy")
+        {
+            //update score here to game manager
+            game_manager.GetComponent<GameManager>().AddScore(other.tag);
+            //update score here to game manager
+            other.GetComponent<EnemyControl>().EnemyDie();
+            //need to clean up the left effect object ?
+            //create explosion effect
+            Instantiate(enemy_explosion, transform.position, transform.rotation);
             LaserDie();
         }
     }

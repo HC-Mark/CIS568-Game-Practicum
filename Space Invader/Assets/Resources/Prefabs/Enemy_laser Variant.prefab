@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8366383503371039884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8741566715686103028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907c13b48baca804eb145b6e24cb36fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+--- !u!1001 &177487491302870617
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -7113255310650437419, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1be4472894949437694aead55c6da60f, type: 3}
+    - target: {fileID: 6520867202465277395, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_Name
+      value: laser_enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6520867202465277405, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fb856851c303d704aaf2e9e5685550fa, type: 2}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789996, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789997, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy_laser Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823789997, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyLaser
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8873999408823790001, guid: 58bc055027d2eb445bfe94348cb99af8, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 58bc055027d2eb445bfe94348cb99af8, type: 3}
+--- !u!1 &8741566715686103028 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8873999408823789997, guid: 58bc055027d2eb445bfe94348cb99af8,
+    type: 3}
+  m_PrefabInstance: {fileID: 177487491302870617}
+  m_PrefabAsset: {fileID: 0}

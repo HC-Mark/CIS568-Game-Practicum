@@ -67,7 +67,7 @@ public class PlayerControl : MonoBehaviour
         //shoot the laser if we press space
         if (Input.GetButton("Fire1") && !is_shot)
         {
-            Debug.Log("fire");
+            //Debug.Log("fire");
             Instantiate(player_laser, player_laser_spawn.position, player_laser.transform.rotation);
             is_shot = true;
             game_manager.GetComponent<GameManager>().AddScore("test");
