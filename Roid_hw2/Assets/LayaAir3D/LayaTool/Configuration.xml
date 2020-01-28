@@ -2,15 +2,15 @@
 <LayaExportSetting>
   <config>1</config>
   <config1>
-    <FirstlevelMenu>0</FirstlevelMenu>
-    <MeshSetting>True</MeshSetting>
+    <FirstlevelMenu>1</FirstlevelMenu>
+    <MeshSetting>False</MeshSetting>
     <IgnoreVerticesUV>False</IgnoreVerticesUV>
     <IgnoreVerticesNormal>False</IgnoreVerticesNormal>
     <IgnoreVerticesTangent>False</IgnoreVerticesTangent>
     <IgnoreVerticesColor>False</IgnoreVerticesColor>
     <CompressMesh>False</CompressMesh>
     <AnimatorCompress>False</AnimatorCompress>
-    <TerrainSetting>True</TerrainSetting>
+    <TerrainSetting>False</TerrainSetting>
     <TextureSetting>False</TextureSetting>
     <JPGQuality>75</JPGQuality>
     <ConvertTerrain>True</ConvertTerrain>
@@ -20,7 +20,7 @@
     <IgnoreNotActiveGameObject>True</IgnoreNotActiveGameObject>
     <OptimizeGameObject>False</OptimizeGameObject>
     <BatchMade>False</BatchMade>
-    <OtherSetting>True</OtherSetting>
+    <OtherSetting>False</OtherSetting>
     <CoverOriginalFile>True</CoverOriginalFile>
     <CustomizeDirectory>False</CustomizeDirectory>
     <CustomizeDirectoryName>
@@ -28,7 +28,8 @@
     <Ios>False</Ios>
     <Android>False</Android>
     <Conventional>True</Conventional>
-    <SavePath>D:/Projects/Laya/SpaceShootLearn/bin/res/scene</SavePath>
+    <SavePath>
+    </SavePath>
     <ScrollPositionY>0</ScrollPositionY>
   </config1>
   <config2>
@@ -156,5 +157,5 @@
     <ScrollPositionY>0</ScrollPositionY>
   </config5>
   <language>1</language>
-  <time>1576592170</time>
+  <time>0</time>
 </LayaExportSetting>

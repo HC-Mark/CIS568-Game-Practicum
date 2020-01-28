@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //we modify the gravity 
+        Physics.gravity = new Vector3(0, 0, -5);
         if (camera_transform == null)
         {
             //find it
