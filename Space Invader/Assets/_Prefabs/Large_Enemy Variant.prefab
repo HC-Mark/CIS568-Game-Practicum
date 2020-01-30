@@ -41,7 +41,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -54,7 +54,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3330610776534743547}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.7480057
   m_Height: 0.46537292
@@ -77,6 +77,7 @@ MonoBehaviour:
   fire_rate_min: 3
   fire_rate_max: 30
   delay: 1
+  active: 0
 --- !u!1001 &766210250
 PrefabInstance:
   m_ObjectHideFlags: 0

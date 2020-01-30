@@ -27,9 +27,11 @@ public class EnemyControl : MonoBehaviour
     public float fire_rate_min;
     public float fire_rate_max;
     public float delay;
+    public bool active;
 
     //private
     GameObject game_manager;
+    private Rigidbody cur_rigid;
     private MoveStandard move_standard;
     private MoveController move_controller;
 
@@ -38,22 +40,42 @@ public class EnemyControl : MonoBehaviour
     {
         //find game manager
         game_manager = GameObject.Find("GameManager");
+        cur_rigid = gameObject.GetComponent<Rigidbody>();
+        active = true;
         //initialize helper class
         move_standard = new MoveStandard();
         move_controller = new MoveController();
         StartCoroutine(Movement());
         StartCoroutine(Fire());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //reset the position if its y value and velocity is wrong
+        if (transform.position.y != 0)
+        {
+            Vector3 temp_pos = transform.position;
+            temp_pos.y = 0;
+            transform.position = temp_pos;
+        }
+
+        if (cur_rigid.velocity.y != 0)
+        {
+            Vector3 temp_vel = cur_rigid.velocity;
+            temp_vel.y = 0;
+            cur_rigid.velocity = temp_vel;
+        }
+
+
+        //test
+
     }
 
     IEnumerator Movement()
     {
-        while (true)
+        while (active)
         {
             if (move_controller.first_round == true)
             {
@@ -123,7 +145,13 @@ public class EnemyControl : MonoBehaviour
 
     }
 
-
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Boundary")
+        {
+            EnemyDie();
+        }
+    }
     //die
     public void EnemyDie()
     {
@@ -135,12 +163,21 @@ public class EnemyControl : MonoBehaviour
 
     IEnumerator Fire()
     {
-        while (true)
+        RaycastHit hit;
+        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        while (active)
         {
-            float fire_rate = Random.Range(fire_rate_min, fire_rate_max);
-            yield return new WaitForSeconds(fire_rate);
-            Instantiate(laser, laser_spawn_pos.position, laser_spawn_pos.rotation);
-            //is_shot = true;
+            if (!Physics.Raycast(transform.position, fwd, 4))
+            {
+                //float fire_rate = Random.Range(fire_rate_min, fire_rate_max);
+                //test
+                float fire_rate = 1;
+                yield return new WaitForSeconds(fire_rate);
+                GameObject cur_laser = Instantiate(laser, laser_spawn_pos.position, laser_spawn_pos.rotation);
+                cur_laser.GetComponent<EnemyLaser>().enemy = gameObject.transform;
+                //is_shot = true;
+                Debug.Log("Fire");
+            }
         }
     }
 }

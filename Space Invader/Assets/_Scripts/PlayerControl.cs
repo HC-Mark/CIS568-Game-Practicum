@@ -26,11 +26,13 @@ public class PlayerControl : MonoBehaviour
 
     //private
     GameObject game_manager;
+    Rigidbody cur_rigid;
     // Start is called before the first frame update
     void Start()
     {
         //initialize game_manager
         game_manager = GameObject.Find("GameManager");
+        cur_rigid = gameObject.GetComponent<Rigidbody>();
     }
 
     //fixed update to update the movement of ship
@@ -57,6 +59,24 @@ public class PlayerControl : MonoBehaviour
         //we need only limit the x-axis because player can only move left to right
         float x_pos = Mathf.Clamp(gameObject.transform.position.x, boundary.x_min, boundary.x_max);
         gameObject.transform.position = new Vector3(x_pos, 0.0f, gameObject.transform.position.z);
+
+        //always reset Y value to zero and velocity on z to zero
+        if (transform.position.y != 0 || transform.position.z != 0)
+        {
+            Vector3 temp_pos = transform.position;
+            temp_pos.z = 0;
+            temp_pos.y = 0;
+            transform.position = temp_pos;
+        }
+
+        if (cur_rigid.velocity.z != 0 || cur_rigid.velocity.y != 0 || cur_rigid.velocity.x != 0)
+        {
+            Vector3 temp_vel = cur_rigid.velocity;
+            temp_vel.x = 0;
+            temp_vel.z = 0;
+            temp_vel.y = 0;
+            cur_rigid.velocity = temp_vel;
+        }
 
     }
 
@@ -93,7 +113,24 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void PlayerDie()
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "EnemyLaser")
+        {
+            PlayerDie();
+        }
+
+        if (collision.collider.tag == "LargeEnemy" || collision.collider.tag == "SmallEnemy" || collision.collider.tag == "MediumEnemy")
+        {
+            if (collision.gameObject.GetComponent<EnemyControl>().active)
+            {
+                PlayerDie();
+            }
+        }
+
+    }
+
+    public void PlayerDie()
     {
         Instantiate(player_explosion, transform.position, transform.rotation);
         //update the life information in game manger

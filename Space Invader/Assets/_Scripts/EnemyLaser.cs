@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyLaser : MonoBehaviour
 {
     public float speed = 10;
+    public Transform enemy;
 
     private GameObject game_manager;
     private Rigidbody rd;
@@ -15,6 +16,8 @@ public class EnemyLaser : MonoBehaviour
         rd.velocity = transform.forward * speed;
         //we play the weapon on audio when the laser created
         gameObject.GetComponent<AudioSource>().Play();
+
+        Physics.IgnoreCollision(GetComponent<Collider>(), enemy.GetComponent<Collider>());
     }
 
     // Update is called once per frame
@@ -37,6 +40,19 @@ public class EnemyLaser : MonoBehaviour
         if (other.tag == "Player")
         {
             LaserDie();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        //we handle the player info update in player control script
+        if (collision.collider.tag == "Player")
+        {
+            LaserDie();
+        }
+        else if (collision.collider.tag == "LargeEnemy" || collision.collider.tag == "SmallEnemy" || collision.collider.tag == "MediumEnemy")
+        {
+            Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider);
         }
     }
 

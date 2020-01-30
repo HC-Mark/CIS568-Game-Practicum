@@ -54,14 +54,56 @@ public class PlayerLaser : MonoBehaviour
         }
         if (other.tag == "LargeEnemy" || other.tag == "SmallEnemy" || other.tag == "MediumEnemy")
         {
+            if (other.GetComponent<EnemyControl>().active)
+            {
+                //update score here to game manager
+                game_manager.GetComponent<GameManager>().AddScore(other.tag);
+                //update score here to game manager
+                //other.GetComponent<EnemyControl>().EnemyDie();
+                other.GetComponent<EnemyControl>().active = false;
+                other.GetComponent<Rigidbody>().useGravity = true;
+                //turn off trigger, turn to collider
+                //other.GetComponent<Rigidbody>().isKinematic = true;
+                //need to clean up the left effect object ?
+                //create explosion effect
+                Instantiate(enemy_explosion, transform.position, transform.rotation);
+                LaserDie();
+            }
+        }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Asteroid")
+        {
             //update score here to game manager
-            game_manager.GetComponent<GameManager>().AddScore(other.tag);
-            //update score here to game manager
-            other.GetComponent<EnemyControl>().EnemyDie();
+            game_manager.GetComponent<GameManager>().AddScore(collision.collider.tag);
+            //destroy correspond object
+            collision.collider.GetComponent<Asteroid>().AsteroidDie();
             //need to clean up the left effect object ?
             //create explosion effect
-            Instantiate(enemy_explosion, transform.position, transform.rotation);
+            Instantiate(asteroid_explosion, transform.position, transform.rotation);
             LaserDie();
+        }
+        if (collision.collider.tag == "LargeEnemy" || collision.collider.tag == "SmallEnemy" || collision.collider.tag == "MediumEnemy")
+        {
+            if (collision.gameObject.GetComponent<EnemyControl>().active)
+            {
+                //update score here to game manager
+                game_manager.GetComponent<GameManager>().AddScore(collision.collider.tag);
+                //update score here to game manager
+                //no more directly die, we change turn on gravity and turn it into inactive status
+                collision.gameObject.GetComponent<EnemyControl>().active = false;
+                collision.gameObject.GetComponent<Rigidbody>().useGravity = true;
+                //turn off trigger, turn to collider
+                collision.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                //collision.collider.GetComponent<EnemyControl>().EnemyDie();
+                //need to clean up the left effect object ?
+                //create explosion effect
+                Instantiate(enemy_explosion, transform.position, transform.rotation);
+                LaserDie();
+            }
         }
     }
 

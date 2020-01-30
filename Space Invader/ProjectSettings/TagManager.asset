@@ -12,6 +12,7 @@ TagManager:
   - LargeEnemy
   - MediumEnemy
   - SmallEnemy
+  - Earth
   layers:
   - Default
   - TransparentFX

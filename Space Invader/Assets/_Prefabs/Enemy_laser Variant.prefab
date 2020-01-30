@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  enemy: {fileID: 3330610776535164379, guid: 09f7631a15896c349aca825ee84da341, type: 3}
 --- !u!1001 &177487491302870617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +100,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: EnemyLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873999408823790003, guid: 58bc055027d2eb445bfe94348cb99af8,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8873999408823790001, guid: 58bc055027d2eb445bfe94348cb99af8, type: 3}

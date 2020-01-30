@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
     private int min_asteroid_score;
     private int max_asteroid_score;
     private bool game_over;
-    private bool restart;
     //for shake effect
     private float shake_amount = 0.7f;
     private Vector3 original_position;
@@ -90,7 +89,7 @@ public class GameManager : MonoBehaviour
 
         //spawn enemy
         enemy_count = System.Enum.GetValues(typeof(z_layout)).Length * System.Enum.GetValues(typeof(x_layout)).Length;
-        SpawnEnemies();
+        //SpawnEnemies();
 
         //initialize score and life_remain;
         score = 0;
@@ -104,7 +103,6 @@ public class GameManager : MonoBehaviour
 
         //initialize and hide the gameover text, restart text and win text
         game_over = false;
-        restart = false;
         gameover_text.gameObject.SetActive(false);
         restart_text.gameObject.SetActive(false);
         win_text.gameObject.SetActive(false);
@@ -116,7 +114,7 @@ public class GameManager : MonoBehaviour
     {
 
 
-        //TODO: switch to based on probability
+        //reload the level to restart the game
         if (game_over)
         {
             if (Input.GetKeyDown(KeyCode.R))
