@@ -78,6 +78,8 @@ MonoBehaviour:
     x_min: -6.1
     x_max: 6.1
   tilt: 40
+  fire_peroid: 0
+  fire_rate: 3
   is_shot: 0
   player_laser: {fileID: 8873999408823789997, guid: 58bc055027d2eb445bfe94348cb99af8,
     type: 3}

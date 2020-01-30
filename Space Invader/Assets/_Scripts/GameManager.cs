@@ -35,7 +35,7 @@ enum z_layout {
 public class GameManager : MonoBehaviour
 {
     public GameObject player;
-    public GameObject asteroid;
+    public GameObject[] asteroids;
     public GameObject enemy;
     public Transform camera_transform;
 
@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour
     public Text gameover_text;
     public Text restart_text;
     public Text win_text;
+
+    //item text
+    public Text eliminate_text;
 
     public Vector3 asteroid_spawn_value;
     public Vector3 player_spawn_pos;
@@ -54,8 +57,13 @@ public class GameManager : MonoBehaviour
     //corountine setup
     public AsteroidSpawn asteroid_spawn;
     public float player_spawn; //or we use it as the shake duration when player die
-    //test
-    public bool die;
+
+    //items
+    //item number maintain
+    private int eliminate_count;
+
+    //enemy laser stored
+    public List<GameObject> enemy_laser_list;
 
     //private variables -- GUI
     private int score;
@@ -71,10 +79,17 @@ public class GameManager : MonoBehaviour
     private bool shake_effect_on;
     private float shake_duration;
     // Start is called before the first frame update
+
+
+
+
+    //test
+    public bool eliminate;
+    public bool die;
     void Start()
     {
         //we modify the gravity 
-        Physics.gravity = new Vector3(0, 0, -5);
+        Physics.gravity = new Vector3(0, 0, -10);
         if (camera_transform == null)
         {
             //find it
@@ -89,7 +104,7 @@ public class GameManager : MonoBehaviour
 
         //spawn enemy
         enemy_count = System.Enum.GetValues(typeof(z_layout)).Length * System.Enum.GetValues(typeof(x_layout)).Length;
-        //SpawnEnemies();
+        SpawnEnemies();
 
         //initialize score and life_remain;
         score = 0;
@@ -101,11 +116,18 @@ public class GameManager : MonoBehaviour
         //initialize es
         es = new EnemyScore();
 
+        //initialize item status
+        eliminate_count = 1;
+        UpdateItemCount();
+
         //initialize and hide the gameover text, restart text and win text
         game_over = false;
         gameover_text.gameObject.SetActive(false);
         restart_text.gameObject.SetActive(false);
         win_text.gameObject.SetActive(false);
+
+        //test 
+        eliminate = false;
 
     }
 
@@ -138,12 +160,22 @@ public class GameManager : MonoBehaviour
                 Win();
 
             }
+
+            if (Input.GetKeyDown(KeyCode.E) && eliminate_count > 0)
+            {
+                EliminateLaser();
+                eliminate_count--;
+                UpdateItemCount();
+            }
         }
 
         if (shake_effect_on)
         {
             ShakeEffect();
         }
+
+
+        //test
     }
 
     IEnumerator SpawnAsteroids() {
@@ -152,7 +184,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(asteroid_wait);
         Vector3 spawn_position = asteroid_spawn_value;
         Quaternion spawn_rotation = Quaternion.identity;
-        Instantiate(asteroid, spawn_position, spawn_rotation);
+        //randomly choose an asteroid to fly out
+        int idx = Random.Range(0, asteroids.Length);
+        Instantiate(asteroids[idx], spawn_position, spawn_rotation);
     }
 
     IEnumerator SpawnPlayer(float spawn_time)
@@ -284,5 +318,31 @@ public class GameManager : MonoBehaviour
     void Win()
     {
         win_text.gameObject.SetActive(true);
+    }
+
+    //add items
+    public void AddItemCount(string tag)
+    {
+        eliminate_count++;
+        UpdateItemCount();
+    }
+
+    private void UpdateItemCount()
+    {
+        eliminate_text.text = "Clear Laser(E):" + eliminate_count;
+    }
+    //eliminate all enemy laser
+    void EliminateLaser()
+    {
+        foreach (GameObject laser in enemy_laser_list)
+        {
+            if (laser != null)
+            {
+                Destroy(laser);
+            }
+        }
+
+        //reset the list
+        enemy_laser_list.Clear();
     }
 }

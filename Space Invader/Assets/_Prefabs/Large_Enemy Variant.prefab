@@ -75,7 +75,7 @@ MonoBehaviour:
   laser: {fileID: 8741566715686103028, guid: f5792f95eff1bfe48991a5c3d2646d0c, type: 3}
   laser_spawn_pos: {fileID: 1340235553}
   fire_rate_min: 3
-  fire_rate_max: 30
+  fire_rate_max: 10
   delay: 1
   active: 0
 --- !u!1001 &766210250

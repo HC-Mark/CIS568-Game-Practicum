@@ -13,6 +13,8 @@ TagManager:
   - MediumEnemy
   - SmallEnemy
   - Earth
+  - Asteroid2
+  - Asteroid3
   layers:
   - Default
   - TransparentFX

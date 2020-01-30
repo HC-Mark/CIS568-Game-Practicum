@@ -16,6 +16,10 @@ public class PlayerControl : MonoBehaviour
     public float revive_time = 3.0f;
     public Boundary boundary;
     public float tilt;
+    //no longer use is_shot, use fire_rate
+    //fire system
+    public float fire_peroid;
+    public float fire_rate;
     public bool is_shot = false; //determine whether the player's ship has shot, if so, can't shoot until the bullet destroyed
 
     //related gameobject -- need to be initialized in editor
@@ -27,12 +31,17 @@ public class PlayerControl : MonoBehaviour
     //private
     GameObject game_manager;
     Rigidbody cur_rigid;
+
+    private bool fired;
+    private Quaternion ori_rot;
     // Start is called before the first frame update
     void Start()
     {
         //initialize game_manager
         game_manager = GameObject.Find("GameManager");
         cur_rigid = gameObject.GetComponent<Rigidbody>();
+        ori_rot = transform.rotation;
+        fire_peroid = 0;
     }
 
     //fixed update to update the movement of ship
@@ -61,14 +70,18 @@ public class PlayerControl : MonoBehaviour
         gameObject.transform.position = new Vector3(x_pos, 0.0f, gameObject.transform.position.z);
 
         //always reset Y value to zero and velocity on z to zero
-        if (transform.position.y != 0 || transform.position.z != 0)
+        if (transform.position.y != 0 || transform.position.z != 0.5)
         {
             Vector3 temp_pos = transform.position;
-            temp_pos.z = 0;
+            temp_pos.z = 0.5f;
             temp_pos.y = 0;
             transform.position = temp_pos;
         }
 
+        if (transform.rotation.x != 0 || transform.rotation.y != 0 || transform.rotation.z != 0)
+        {
+            transform.rotation = ori_rot;
+        }
         if (cur_rigid.velocity.z != 0 || cur_rigid.velocity.y != 0 || cur_rigid.velocity.x != 0)
         {
             Vector3 temp_vel = cur_rigid.velocity;
@@ -85,12 +98,14 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         //shoot the laser if we press space
-        if (Input.GetButton("Fire1") && !is_shot)
+        if (Input.GetButton("Fire1") && !fired)
         {
             //Debug.Log("fire");
             Instantiate(player_laser, player_laser_spawn.position, player_laser.transform.rotation);
-            is_shot = true;
-            game_manager.GetComponent<GameManager>().AddScore("test");
+            fired = true;
+            //reset fire_period
+            fire_peroid = 0;
+            //game_manager.GetComponent<GameManager>().AddScore("test");
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -102,7 +117,12 @@ public class PlayerControl : MonoBehaviour
             PlayerDie();
             
         }
-        
+
+        if (fired)
+        {
+            fire_peroid += Time.deltaTime;
+            if (fire_peroid >= fire_rate) fired = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -117,7 +137,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.collider.tag == "EnemyLaser")
         {
-            PlayerDie();
+            if(collision.gameObject.GetComponent<EnemyLaser>().active)   PlayerDie();
         }
 
         if (collision.collider.tag == "LargeEnemy" || collision.collider.tag == "SmallEnemy" || collision.collider.tag == "MediumEnemy")

@@ -28,7 +28,6 @@ public class PlayerLaser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -41,12 +40,14 @@ public class PlayerLaser : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Asteroid")
+        if (other.tag == "Asteroid" || other.tag == "Asteroid2" || other.tag == "Asteroid3")
         {
             //update score here to game manager
             game_manager.GetComponent<GameManager>().AddScore(other.tag);
-            //destroy correspond object
-            other.GetComponent<Asteroid>().AsteroidDie();
+            //update the item count
+            game_manager.GetComponent<GameManager>().AddItemCount(other.tag);
+           //destroy correspond object
+           other.GetComponent<Asteroid>().AsteroidDie();
             //need to clean up the left effect object ?
             //create explosion effect
             Instantiate(asteroid_explosion, transform.position, transform.rotation);
@@ -75,7 +76,7 @@ public class PlayerLaser : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Asteroid")
+        if (collision.collider.tag == "Asteroid" || collision.collider.tag == "Asteroid2" || collision.collider.tag == "Asteroid3")
         {
             //update score here to game manager
             game_manager.GetComponent<GameManager>().AddScore(collision.collider.tag);
@@ -109,7 +110,7 @@ public class PlayerLaser : MonoBehaviour
 
     void LaserDie()
     {
-        player_ship.GetComponent<PlayerControl>().is_shot = false;
+        if(player_ship != null)    player_ship.GetComponent<PlayerControl>().fire_peroid = player_ship.GetComponent<PlayerControl>().fire_rate; //able to fire again
         Destroy(gameObject);
     }
 }

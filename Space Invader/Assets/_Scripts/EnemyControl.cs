@@ -30,11 +30,15 @@ public class EnemyControl : MonoBehaviour
     public bool active;
 
     //private
+    private bool fired;
+    private Vector3 fwd;
+    private float dist;
     GameObject game_manager;
     private Rigidbody cur_rigid;
     private MoveStandard move_standard;
     private MoveController move_controller;
-
+    private IEnumerator moving;
+    private IEnumerator firing;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,11 +46,22 @@ public class EnemyControl : MonoBehaviour
         game_manager = GameObject.Find("GameManager");
         cur_rigid = gameObject.GetComponent<Rigidbody>();
         active = true;
+
+        //https://gamedev.stackexchange.com/questions/97429/stopcoroutine-is-not-stopping-my-coroutine-in-unity
+        //we need to store the IEnumerator and directly refer to that specific corountine, otherwise we can't stop the coroutine
+        moving = Movement();
+        firing = Fire();
+
         //initialize helper class
         move_standard = new MoveStandard();
         move_controller = new MoveController();
-        StartCoroutine(Movement());
-        StartCoroutine(Fire());
+        StartCoroutine(moving);
+        //for fire system
+        fired = false;
+        dist = 5;
+        fwd = transform.TransformDirection(Vector3.forward);
+
+
 
     }
 
@@ -68,9 +83,21 @@ public class EnemyControl : MonoBehaviour
             cur_rigid.velocity = temp_vel;
         }
 
+        if (!fired)
+        {
+            if (!Physics.Raycast(transform.position, fwd, dist))
+            {
+                StartCoroutine(firing);
+                fired = true;
+            }
+        }
 
-        //test
-
+        if (!active)
+        {
+            //step firing
+            StopCoroutine(firing);
+            StopCoroutine(moving);
+        }
     }
 
     IEnumerator Movement()
@@ -141,6 +168,13 @@ public class EnemyControl : MonoBehaviour
                     }
                 }
             }
+
+
+            //reset all the velocity, only moved by translation
+            if (cur_rigid.velocity.y != 0 || cur_rigid.velocity.x != 0 || cur_rigid.velocity.z != 0)
+            {
+                cur_rigid.velocity = new Vector3(0,0,0);
+            }
         }
 
     }
@@ -163,21 +197,14 @@ public class EnemyControl : MonoBehaviour
 
     IEnumerator Fire()
     {
-        RaycastHit hit;
-        Vector3 fwd = transform.TransformDirection(Vector3.forward);
-        while (active)
+        while (true)
         {
-            if (!Physics.Raycast(transform.position, fwd, 4))
-            {
-                //float fire_rate = Random.Range(fire_rate_min, fire_rate_max);
+                float fire_rate = Random.Range(fire_rate_min, fire_rate_max);
                 //test
-                float fire_rate = 1;
+                //float fire_rate = 1;
                 yield return new WaitForSeconds(fire_rate);
                 GameObject cur_laser = Instantiate(laser, laser_spawn_pos.position, laser_spawn_pos.rotation);
                 cur_laser.GetComponent<EnemyLaser>().enemy = gameObject.transform;
-                //is_shot = true;
-                Debug.Log("Fire");
-            }
         }
     }
 }
